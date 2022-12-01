@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+
+  next:
+    image: next
+    build: 
+      dockerfile: ./next/Dockerfile.production
+    ports:
+     - 3000:3000
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: qwerty
+    volumes:
+      - ./databases:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 6080:8080
+
+  web:
+    image: nginx
+    volumes:
+      - ./templates:/etc/nginx/templates
+    ports:
+      - "8080:80"
+    environment:
+      - NGINX_HOST=foobar.com
+      - NGINX_PORT=80

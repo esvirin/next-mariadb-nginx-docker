@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+
+  next:
+    build: ./next
+    ports:
+     - 3000:3000
+    volumes:
+      - ./next/pages:/app/pages
+      - ./next/public:/app/public
+      - ./next/styles:/app/styles
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: qwerty
+    volumes:
+      - ./databases:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 6080:8080
